@@ -1,0 +1,10 @@
+1.
+	Linux0.11的机制下，系统调用最多传递三个参数。因为系统调用传参需要使用寄存器，eax中存放着系统调用号，只有ebx、ecx、edx可以传参使用。解决这个问题可以通过传递指针（数组）的方式，寄存器中存放一个内存的起始地址，此后的一块内存空间内存放参数，利用寄存器间接寻址的方式来传参。
+
+2.
+（1）修改/kernel/system_call.s中系统调用个数
+（2）在/include/unistd.h中添加系统调用foo的宏定义#define __NR_foo
+（3）修改/include/linux/sys.h，声明部分添加extern int sys_foo();，fn_ptr sys_call_table[]数组中对应位置添加sys_foo
+（4）在/kernel/foo.c中实现系统函数foo
+（5）修改makefile文件，使foo.c能够编译
+
